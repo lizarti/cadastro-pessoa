@@ -163,11 +163,11 @@
     <div class="my-4 flex justify-end">
       <div>
         <span
-          v-if="!isFormValid()"
+          v-if="ui.desabilitado && !isFormValid()"
           class="text-xs text-red-600 font-semibold mr-4">
          Alguns campos não estão preenchidos corretamente.
         </span>
-        <t-button color="blue" @click="salvarContato()" :disabled="!isFormValid()">
+        <t-button color="blue" @click="salvarContato()">
           <template v-slot:prepend>
             <t-icon type="save"></t-icon>
           </template>
@@ -202,6 +202,9 @@ export default {
   },
   data() {
     return {
+      ui: {
+        desabilitado: false,
+      },
       opcoesSexo: [
         {
           label: 'Masculino',
@@ -223,8 +226,11 @@ export default {
       this.$emit('removerEndereco', endereco);
     },
     salvarContato() {
-      if (!this.$v.invalid) {
+      if (this.isFormValid()) {
         this.$emit('salvar');
+        this.ui.desabilitado = false;
+      } else {
+        this.ui.desabilitado = true;
       }
     },
     /* precisa ser um método pois utiliza-se de $refs */
