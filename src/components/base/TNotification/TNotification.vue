@@ -45,7 +45,7 @@ export default {
       clearTimeout(timer);
       this.notification = notification;
       timer = setTimeout(() => {
-        // this.notification = null;
+        this.notification = null;
       }, 4000);
     });
   },
