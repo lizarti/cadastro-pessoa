@@ -3,7 +3,7 @@
     <t-resource-list
       name="Contato"
       :showTitle="false"
-      :data="contatos"
+      :data="contatosExibidos"
       :columns="columns"
       :actions="actions"
       :pagination="pagination"
@@ -40,7 +40,7 @@ export default {
   data: () => ({
     pagination: {
       page: 1,
-      perPage: 15,
+      perPage: 2,
       total: 0,
     },
     contatos: [],
@@ -82,13 +82,10 @@ export default {
   }),
   methods: {
     obterContatos() {
-      const { page, perPage } = this.pagination;
       /* como a paginação vai ser feita localmente, pegarei todos os registros */
-      contatoService.listarContatos(page, 100).then(({ data }) => {
+      contatoService.listarContatos(1, 100).then(({ data }) => {
         this.pagination.total = data.length;
-        this.contatos = data
-          .slice((page - 1) * perPage, page * perPage)
-          .map((contato) => new Contato(contato));
+        this.contatos = data.map((contato) => new Contato(contato));
       });
     },
     novoContato() {
@@ -132,6 +129,12 @@ export default {
     },
     updatePagination(pagination) {
       this.pagination = pagination;
+    },
+  },
+  computed: {
+    contatosExibidos() {
+      const { page, perPage } = this.pagination;
+      return this.contatos.slice((page - 1) * perPage, page * perPage);
     },
   },
   created() {
