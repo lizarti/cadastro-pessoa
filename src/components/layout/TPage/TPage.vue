@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="page" id="page">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -28,8 +26,4 @@ export default {
 </script>
 
 <style scoped>
-  .page {
-    padding: 8px 12px;
-    margin-bottom: 72px;
-  }
 </style>

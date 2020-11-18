@@ -2,8 +2,8 @@
   <button
     v-on="clickListeners"
     type="button"
-    class="inline-flex justify-center items-center rounded-md px-4 py-2
-    text-sm leading-5 font-medium transition ease-in-out duration-200"
+    class="inline-flex justify-center items-center rounded-md px-2 py-2 text-sm
+    leading-5 font-medium transition ease-in-out duration-200 outline-none focus:outline-none"
     :class="{ ...computedTypes, ...computedColors }">
     <template v-if="$slots.prepend">
       <div class="leading-4" v-if="!!$slots.prepend" :class="{'mr-1':!icon}">

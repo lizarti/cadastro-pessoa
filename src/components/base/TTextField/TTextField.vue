@@ -1,22 +1,41 @@
 <template>
-  <div class="w-full">
-    <div>
-
-      <input
-        v-bind="$attrs"
-        v-on="listeners"
-        class="my-2 px-4 py-2 rounded border bg-gray-200 border-gray-200 focus:border-blue-200
-        appearance-none outline-none w-full text-gray-800"
-        v-mask="maskOptions"
-        @accept="onMaskAccept"
-        :maxlength="maxLengthMask"/>
-    </div>
-  </div>
+  <t-input
+    v-bind="$attrs"
+    v-on="$listeners"
+    :value="value">
+    <template v-slot:prepend v-if="prependIcon">
+      <div class="absolute flex items-center">
+        <t-button icon text>
+          <t-icon
+            :type="prependIcon"
+            @click="(e) => prependHandler ? prependHandler(e) : null">
+          </t-icon>
+        </t-button>
+      </div>
+    </template>
+    <template v-slot:append v-if="appendIcon">
+      <div class="flex items-center">
+        <t-button icon text>
+          <t-icon
+            :type="appendIcon"
+            @click="(e) => appendHandler ? appendHandler(e) : null">
+          </t-icon>
+        </t-button>
+      </div>
+    </template>
+  </t-input>
 </template>
 
 <script>
 export default {
   name: 't-text-field',
+  props: {
+    value: null,
+    prependIcon: String,
+    prependHandler: Function,
+    appendIcon: String,
+    appendHandler: Function,
+  },
   data() {
     return {
       maskedValue: undefined,

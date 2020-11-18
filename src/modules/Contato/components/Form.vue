@@ -77,7 +77,7 @@
             title="label"
             label="Sexo"
             v-model="contato.sexo"></t-select>
-            <template v-slot:errors>
+          <template v-slot:errors>
             <p v-if="!$v.contato.sexo.required">O campo é obrigatório.</p>
           </template>
         </t-form-group>

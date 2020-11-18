@@ -3,7 +3,7 @@
     <t-sidebar></t-sidebar>
     <div class="w-full flex flex-col">
       <t-navbar></t-navbar>
-      <div class="p-1 wrapper">
+      <div class="p-2 wrapper">
         <router-view></router-view>
       </div>
     </div>
@@ -15,5 +15,6 @@
   .wrapper {
     overflow-y: auto;
     max-height: calc(100vh - 66px);
+    height: 100%;
   }
 </style>

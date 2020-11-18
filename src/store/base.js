@@ -16,6 +16,11 @@ const initialState = {
         icon: 'users',
         action: 'contato.list',
       },
+      {
+        label: 'Nova tarefa',
+        icon: 'plus',
+        action: 'tarefa.new',
+      },
     ],
   },
 };

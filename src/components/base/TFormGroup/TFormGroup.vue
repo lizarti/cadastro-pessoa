@@ -5,12 +5,12 @@
         {{ label }}
       </label>
     </slot>
-    <div class="flex flex-wrap">
+    <div>
       <slot></slot>
     </div>
     <div
       v-if="$scopedSlots.errors"
-      class="text-xs text-red-600 font-semibold -mt-1">
+      class="text-xs text-red-600 font-medium pl-2 -mt-1">
       <slot name="errors"></slot>
     </div>
   </div>

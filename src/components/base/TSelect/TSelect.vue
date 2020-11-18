@@ -1,50 +1,45 @@
 <template>
-  <div class="flex flex-col items-center w-full">
+  <div class="flex flex-col items-center">
     <div class="w-full flex flex-col items-center">
       <div class="w-full">
         <div class="flex flex-col items-center relative">
           <div
             class="w-full cursor-pointer"
             @click="opened = !opened">
-            <div
-              class="my-2 px-4 py-2 rounded border
-            bg-gray-200 border-gray-200 focus:border-blue-200 flex">
-              <div class="appearance-none outline-none w-full
-              text-gray-800 overflow-hidden whitespace-no-wrap">
-                <span class="text-gray-500" v-if="!hasValidValue">{{ label}}</span>
-                <span v-if="hasValidValue" class="">
-                  {{ textValue }}
-                </span>
-              </div>
-              <div
-                class="text-gray-300 w-8 pl-2 pr-1 border-l flex items-center border-gray-200">
-                <button
-                  class="w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="100%"
-                    height="100%"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="w-4 h-4">
-                    <polyline :points="pointsIconChevron" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+
+            <t-input
+              :value="textValue"
+              :placeholder="label"
+              readonly>
+
+              <template v-slot:prepend v-if="$attrs.prependIcon">
+                <div class="absolute flex items-center">
+                  <t-button icon text>
+                    <t-icon
+                      :type="$attrs.prependIcon"
+                      @click="(e) => prependHandler ? prependHandler(e) : null">
+                    </t-icon>
+                  </t-button>
+                </div>
+              </template>
+
+              <template v-slot:append>
+                <t-button icon text>
+                  <t-icon
+                    :type="opened ? 'chevron-up' : 'chevron-down'">
+                  </t-icon>
+                </t-button>
+              </template>
+            </t-input>
           </div>
           <div
             v-if="opened"
             class="absolute shadow bg-white top-100 z-40 w-full lef-0 rounded
-            max-h-select overflow-y-auto svelte-5uyqqj">
+            max-h-select overflow-y-auto mb-4">
             <div class="flex flex-col w-full">
               <t-option v-for="(option, index) in options" :key="index"
-                :title="option[title]"
-                :subtitle="option[subtitle]"
+                :title="titleForOption(option)"
+                :subtitle="subtitleForOption(option)"
                 :selected="isOptionSelected(option)"
                 @click="onClick(option)"
                 ></t-option>
@@ -85,6 +80,18 @@ export default {
       this.$emit('input', this.returnValue ? option[this.returnValue] : option);
       this.$emit('change', this.returnValue ? option[this.returnValue] : option);
     },
+    titleForOption(option) {
+      if (this.isOptionsArrayOfObjects) {
+        return option[this.title];
+      }
+      return option;
+    },
+    subtitleForOption(option) {
+      if (this.isOptionsArrayOfObjects) {
+        return option[this.subtitle];
+      }
+      return null;
+    },
     isOptionSelected(option) {
       if (this.returnValue) {
         return option[this.returnValue] === this.value;
@@ -94,17 +101,23 @@ export default {
   },
   computed: {
     textValue() {
+      if (!this.hasValue) {
+        return '';
+      }
+      if (!this.isOptionsArrayOfObjects) {
+        return this.value;
+      }
       if (this.returnValue) {
         const option = this.options.find((o) => o[this.returnValue] === this.value);
         return option[this.title];
       }
       return this.value[this.title];
     },
-    pointsIconChevron() {
-      return this.opened ? '18 15 12 9 6 15' : '18 9 12 15 6 9';
-    },
-    hasValidValue() {
+    hasValue() {
       return this.value !== null && this.value !== undefined;
+    },
+    isOptionsArrayOfObjects() {
+      return this.options && this.options.length && typeof this.options[0] === 'object';
     },
   },
 };
