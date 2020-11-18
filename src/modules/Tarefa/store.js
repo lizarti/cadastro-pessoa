@@ -1,0 +1,4 @@
+/* vazio */
+export default {
+
+};
